@@ -1,10 +1,9 @@
-const express = require("express");
-const { json, urlencoded } = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const morgan = require("morgan");
-const fs = require("fs");
-const mongoose = require("mongoose");
+import express, { json, urlencoded } from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
+import fs from "fs";
+import mongoose from "mongoose";
 
 // Creating app and loading .env
 const app = express();
@@ -19,7 +18,7 @@ if (process.env.ENVIRONMENT == "DEV") {
 }
 
 // Loading routes
-const path = `${require.main.path}/routes`;
+const path = `${require.main?.path}\\routes`;
 fs.readdirSync(path).forEach((file) => {
   try {
     const fileNameWithoutExtension = file.replace(".js", "");
@@ -30,7 +29,7 @@ fs.readdirSync(path).forEach((file) => {
 });
 
 // Loading mongoose
-mongoose.connect(process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL!);
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("connected", () => console.log("Database connected"));
