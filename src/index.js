@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 // Creating app and loading .env
 const app = express();
@@ -27,6 +28,12 @@ fs.readdirSync(path).forEach((file) => {
     console.error(error);
   }
 });
+
+// Loading mongoose
+mongoose.connect(process.env.DATABASE_URL);
+const db = mongoose.connection;
+db.on("error", (error) => console.error(error));
+db.once("connected", () => console.log("Database connected"));
 
 // Listening port
 app.listen(process.env.PORT || 8000, () =>
