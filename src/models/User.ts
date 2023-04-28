@@ -22,7 +22,7 @@ export default model(
     role: {
       required: true,
       type: String,
-      enum: ["admin", "student"],
+      enum: ["librarian", "student"],
     },
   })
 );

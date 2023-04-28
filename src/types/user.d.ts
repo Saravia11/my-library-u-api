@@ -3,6 +3,7 @@ export type PostInput = {
   last_name: string;
   carnet: string;
   password: string;
+  role: "librarian" | "student";
 };
 
 export type PostLoginInput = {

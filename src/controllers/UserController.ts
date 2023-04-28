@@ -11,7 +11,7 @@ export default class UserController {
    */
   static post = asyncHandler(async (req: Request<any, any, PostInput>, res) => {
     try {
-      const { name, last_name, carnet, password } = req.body;
+      const { name, last_name, carnet, password, role } = req.body;
       const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
       const user = new User({
@@ -19,7 +19,7 @@ export default class UserController {
         last_name,
         carnet,
         hash,
-        role: "student",
+        role,
       });
       const data = await user.save();
 
