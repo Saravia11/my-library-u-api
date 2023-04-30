@@ -6,6 +6,18 @@ import type { Book as BookType } from "../types/books";
 
 class BookController {
   /**
+   * GET: /
+   */
+  static get = asyncHandler(async (_, res) => {
+    const books = await Book.find().populate("genre");
+
+    res.status(200).json({
+      message: "Books retrieved successfully",
+      data: books,
+    });
+  });
+
+  /**
    * POST: /
    */
   static post = asyncHandler(async (req: Request<{}, {}, BookType>, res) => {
