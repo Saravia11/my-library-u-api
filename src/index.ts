@@ -1,4 +1,10 @@
-import express, { json, urlencoded } from "express";
+import express, {
+  NextFunction,
+  Request,
+  Response,
+  json,
+  urlencoded,
+} from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
@@ -26,6 +32,13 @@ fs.readdirSync(path).forEach((file) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+// Error handler
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({
+    message: error.message,
+  });
 });
 
 // Loading mongoose
