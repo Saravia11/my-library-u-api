@@ -8,9 +8,5 @@ export default model(
       required: true,
       unique: true,
     },
-    _book: {
-      type: Number,
-      ref: "Books",
-    },
   })
 );
