@@ -3,9 +3,11 @@ import UserController from "../controllers/UserController";
 
 const router = express.Router();
 
-router.get("/:id", UserController.get);
-
 router.post("/", UserController.post);
+
+router.get("/", UserController.get);
+
+router.get("/:id", UserController.getId);
 
 router.post("/login", UserController.postLogin);
 

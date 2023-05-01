@@ -30,9 +30,21 @@ export default class UserController {
   });
 
   /**
-   * GET: /:id
+   * GET: /
    */
   static get = asyncHandler(async (req, res) => {
+    const users = await User.find().sort({ role: "asc", last_name: "asc" });
+
+    res.status(200).json({
+      message: "Users retrieved successfully",
+      data: users,
+    });
+  });
+
+  /**
+   * GET: /:id
+   */
+  static getId = asyncHandler(async (req, res) => {
     try {
       const id = req.params.id;
 
@@ -60,7 +72,6 @@ export default class UserController {
   /**
    * POST: /login
    */
-
   static postLogin = asyncHandler(
     async (req: Request<any, any, PostLoginInput>, res) => {
       const { email, password } = req.body;
