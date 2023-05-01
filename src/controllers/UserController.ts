@@ -23,7 +23,10 @@ export default class UserController {
       });
       const data = await user.save();
 
-      res.status(201).json(data);
+      res.status(201).json({
+        message: "User created successfully",
+        data,
+      });
     } catch (error) {
       res.status(500).json({ message: error });
     }
@@ -48,7 +51,10 @@ export default class UserController {
       }
 
       const { hash, ..._user } = user.toJSON();
-      res.status(200).json(_user);
+      res.status(200).json({
+        message: "User found",
+        data: _user,
+      });
     } catch (error) {
       res.status(500).json({ message: error });
     }
@@ -83,7 +89,10 @@ export default class UserController {
       }
 
       const { hash: h, ...userInfo } = user.toJSON();
-      res.status(200).json(userInfo);
+      res.status(200).json({
+        message: "User logged successfully",
+        data: userInfo,
+      });
     }
   );
 }
