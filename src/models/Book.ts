@@ -6,7 +6,6 @@ export default model(
     title: {
       type: String,
       required: true,
-      unique: true,
     },
     author: {
       type: String,
@@ -19,6 +18,10 @@ export default model(
     genre: {
       type: Schema.Types.ObjectId,
       ref: "Genre",
+      required: true,
+    },
+    stock: {
+      type: Number,
       required: true,
     },
   })

@@ -20,14 +20,32 @@ class BookController {
   /**
    * POST: /
    */
-  static post = asyncHandler(async (req: Request<{}, {}, BookType>, res) => {
-    const book = new Book(req.body);
-    const bookInfo = await book.save();
-    res.status(201).json({
-      message: "Book successfully created",
-      data: bookInfo.toJSON(),
-    });
-  });
+  static post = asyncHandler(
+    async (req: Request<{}, {}, BookType & { stock: number }>, res) => {
+      const { genre, stock, ...restBook } = req.body;
+      const bookBD = await Book.findOne(restBook);
+      if (!bookBD) {
+        const book = new Book(req.body);
+        const bookInfo = await book.save();
+        res.status(201).json({
+          message: "Book successfully created",
+          data: bookInfo.toJSON(),
+        });
+        return;
+      }
+
+      const newBook = await Book.findByIdAndUpdate(bookBD._id, {
+        stock: bookBD.stock + stock,
+      });
+
+      if (!newBook) throw new Error("MongooseError: Book could not be updated");
+
+      res.status(200).json({
+        message: "Book successfully updated",
+        data: newBook,
+      });
+    }
+  );
 
   /**
    * GET: /genres
