@@ -2,6 +2,7 @@ import { Request } from "express";
 import asyncHandler from "express-async-handler";
 import Book from "../models/Book";
 import Genre from "../models/Genre";
+import Loan from "../models/Loan";
 import type { Book as BookType } from "../types/books";
 
 class BookController {
@@ -56,5 +57,46 @@ class BookController {
       data: await Genre.find(),
     });
   });
+
+  /**
+   * POST: /check-out
+   */
+  static postCheckOut = asyncHandler(
+    async (req: Request<{}, {}, { _id: string }>, res) => {
+      const { _id } = req.body;
+
+      const book = await Book.findById(_id);
+
+      if (!book) {
+        res.status(404).json({
+          message: "Book not found",
+        });
+        return;
+      }
+
+      const bookUpdated = await Book.findByIdAndUpdate(
+        _id,
+        {
+          stock: book.stock - 1,
+        },
+        { new: true }
+      );
+
+      if (!bookUpdated)
+        throw new Error("MongooseError: Book could not be updated");
+
+      const loan = new Loan({
+        book_id: book._id,
+        date: new Date(),
+        state: "borrowed",
+      });
+      await loan.save();
+
+      res.status(200).json({
+        message: "Check out for this book has been successful",
+        data: bookUpdated,
+      });
+    }
+  );
 }
 export default BookController;

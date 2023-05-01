@@ -9,4 +9,6 @@ router.post("/", BookController.post);
 
 router.get("/genres", BookController.getGenres);
 
+router.post("/check-out", BookController.postCheckOut);
+
 module.exports = router;
