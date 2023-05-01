@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import Genre from "./Genre";
 
 export default model(
   "Book",
