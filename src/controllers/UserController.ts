@@ -11,15 +11,12 @@ export default class UserController {
    */
   static post = asyncHandler(async (req: Request<any, any, PostInput>, res) => {
     try {
-      const { name, last_name, carnet, password, role } = req.body;
+      const { password, ...restUser } = req.body;
       const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
       const user = new User({
-        name,
-        last_name,
-        carnet,
+        ...restUser,
         hash,
-        role,
       });
       const data = await user.save();
 
@@ -66,10 +63,10 @@ export default class UserController {
 
   static postLogin = asyncHandler(
     async (req: Request<any, any, PostLoginInput>, res) => {
-      const { carnet, password } = req.body;
+      const { email, password } = req.body;
 
       const user = await User.findOne({
-        carnet,
+        email,
       });
 
       if (!user) {

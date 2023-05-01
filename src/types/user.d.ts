@@ -7,6 +7,6 @@ export type PostInput = {
 };
 
 export type PostLoginInput = {
-  carnet: string;
+  email: string;
   password: string;
 };

@@ -11,7 +11,7 @@ export default model(
       required: true,
       type: String,
     },
-    carnet: {
+    email: {
       required: true,
       type: String,
     },
