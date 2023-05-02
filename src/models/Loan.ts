@@ -3,9 +3,14 @@ import { Schema, model } from "mongoose";
 export default model(
   "Loan",
   new Schema({
-    book_id: {
+    book: {
       type: Schema.Types.ObjectId,
       ref: "Book",
+      required: true,
+    },
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     date: {
