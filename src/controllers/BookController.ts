@@ -62,10 +62,10 @@ class BookController {
    * POST: /check-out
    */
   static postCheckOut = asyncHandler(
-    async (req: Request<{}, {}, { _id: string }>, res) => {
-      const { _id } = req.body;
+    async (req: Request<{}, {}, { bookId: string; userId: string }>, res) => {
+      const { bookId, userId } = req.body;
 
-      const book = await Book.findById(_id);
+      const book = await Book.findById(bookId);
 
       if (!book) {
         res.status(404).json({
@@ -75,7 +75,7 @@ class BookController {
       }
 
       const bookUpdated = await Book.findByIdAndUpdate(
-        _id,
+        bookId,
         {
           stock: book.stock - 1,
         },
@@ -86,9 +86,10 @@ class BookController {
         throw new Error("MongooseError: Book could not be updated");
 
       const loan = new Loan({
-        book_id: book._id,
+        book: book._id,
         date: new Date(),
         state: "borrowed",
+        student: userId,
       });
       await loan.save();
 
