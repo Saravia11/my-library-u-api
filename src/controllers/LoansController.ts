@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Loan from "../models/Loan";
 import Book from "../models/Book";
+import type { Request } from "express";
 
 class LoansController {
   /**
@@ -53,5 +54,23 @@ class LoansController {
       message: "Book successfully returned",
     });
   });
+
+  /**
+   * GET: /:id
+   */
+  static getLoansHistory = asyncHandler(
+    async (req: Request<{ userId: string }, {}, {}>, res) => {
+      const { userId } = req.params;
+
+      const loans = await Loan.find({
+        student: userId,
+      }).populate("book");
+
+      res.status(200).json({
+        message: "Loans retrieved successfully",
+        data: loans,
+      });
+    }
+  );
 }
 export default LoansController;
