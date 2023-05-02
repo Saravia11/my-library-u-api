@@ -24,7 +24,7 @@ if (process.env.ENVIRONMENT == "DEV") {
 }
 
 // Loading routes
-const path = `${require.main?.path}\\routes`;
+const path = `${require.main?.path}/routes`;
 fs.readdirSync(path).forEach((file) => {
   try {
     const fileNameWithoutExtension = file.replace(".js", "");

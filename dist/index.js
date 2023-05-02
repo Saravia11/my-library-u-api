@@ -44,7 +44,7 @@ if (process.env.ENVIRONMENT == "DEV") {
     app.use((0, morgan_1.default)("dev"));
 }
 // Loading routes
-const path = `${(_a = require.main) === null || _a === void 0 ? void 0 : _a.path}\\routes`;
+const path = `${(_a = require.main) === null || _a === void 0 ? void 0 : _a.path}/routes`;
 fs_1.default.readdirSync(path).forEach((file) => {
     try {
         const fileNameWithoutExtension = file.replace(".js", "");
